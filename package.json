@@ -1,0 +1,25 @@
+{
+    "author": "Nicolas Carlier (https://github.com/ncarlier/)",
+    "name": "orbino",
+    "description": "Orbino project",
+    "version": "0.0.1",
+    "homepage": "https://bitbucket.org/ncarlier/orbino",
+    "repository": {
+        "type": "git",
+        "url": "git@bitbucket.org:ncarlier/arduino.git"
+    },
+    "main": "app.js",
+    "engines": {
+        "node": ">=v0.6.6"
+    },
+    "dependencies": {
+        "express":"2.5.x",
+        "express-form":"0.6.x",
+        "sprintf":"*",
+        "ejs":"0.6.x",
+        "async":"0.1.x",
+        "ain2": "",
+        "winston": ""
+    },
+    "devDependencies": {}
+}
