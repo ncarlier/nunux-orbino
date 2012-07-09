@@ -270,6 +270,5 @@ function closestEnabledButton( element ) {
 
     return element;
 }
-
 	
 })(jQuery);

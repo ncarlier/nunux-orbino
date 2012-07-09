@@ -12,13 +12,13 @@
 </head>
 <body>
     <!-- Color -->
-    <div data-role="page" id="page_color">
+    <div data-role="page" id="page_color" data-title="Page foo">
         <div data-theme="a" data-role="header">
-            <h3> Orbino <% if (locals.color) { %><%=locals.color%><% } %></h3>
-            <div data-role="navbar" data-iconpos="top">
+            <h1>Orbino</h1>
+            <div data-role="navbar" data-iconpos="bottom">
                 <ul>
-                    <li><a href="#page_color" class="ui-btn-active ui-state-persist">Color</a></li>
-                    <li><a href="#page_preset" data-transition="slide" >Presets</a></li>
+                    <li><a href="#page_color" class="ui-btn-active ui-state-persist" data-icon="home">Color</a></li>
+                    <li><a href="#page_preset" data-transition="slide" data-icon="star">Presets</a></li>
                 </ul>
             </div>
         </div>
@@ -26,20 +26,26 @@
             <form method="POST">
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider1">Red</label>
-                        <input type="range" name="red" id="slider1" value="50" min="0" max="255" data-highlight="false" data-theme="a" data-track-theme="b" />
+                        <label for="red-slider">Red</label>
+                        <input type="range" name="red" id="red-slider" value="255" min="0" max="255" data-type="range" data-highlight="false" data-theme="a" data-track-theme="b" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider2">Green</label>
-                        <input type="range" name="green" id="slider2" value="50" min="0" max="255" data-highlight="false" data-theme="a" data-track-theme="b" />
+                        <label for="green-slider">Green</label>
+                        <input type="range" name="green" id="green-slider" value="255" min="0" max="255" data-type="range" data-highlight="false" data-theme="a" data-track-theme="b" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider3">Blue</label>
-                        <input type="range" name="blue" id="slider3" value="50" min="0" max="255" data-highlight="false" data-theme="a" data-track-theme="b" />
+                        <label for="blue-slider">Blue</label>
+                        <input type="range" name="blue" id="blue-slider" value="255" min="0" max="255" data-type="range" data-highlight="false" data-theme="a" data-track-theme="b" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="color">Color</label>
+                        <input type="text" name="color" id="color" value="FFFFFF" />
                     </fieldset>
                 </div>
                 
@@ -55,22 +61,22 @@
     <!-- Color -->
     <div data-role="page" id="page_preset">
         <div data-theme="a" data-role="header">
-            <h3>Orbino</h3>
-            <div data-role="navbar" data-iconpos="top">
+            <h1>Orbino</h1>
+            <div data-role="navbar" data-iconpos="bottom">
                 <ul>
-                    <li><a href="#page_color" data-transition="slide" data-direction="reverse">Color</a></li>
-                    <li><a href="#page_preset" class="ui-btn-active ui-state-persist">Presets</a></li>
+                    <li><a href="#page_color" data-transition="slide" data-direction="reverse" data-icon="home">Color</a></li>
+                    <li><a href="#page_preset" class="ui-btn-active ui-state-persist" data-icon="star">Presets</a></li>
                 </ul>
             </div>
         </div>
         <div data-role="content" style="padding: 15px">
             <ul data-role="listview" data-divider-theme="" data-inset="false">
-                <li data-theme="">Red</li>
-                <li data-theme="">Green</li>
-                <li data-theme="">Blue</li>
-                <li data-theme="">Cyan</li>
-                <li data-theme="">Magenta</li>
-                <li data-theme="">Yellow</li>
+                <li data-theme="" style="color: #FF0000">Red</li>
+                <li data-theme="" style="color: #00FF00">Green</li>
+                <li data-theme="" style="color: #0000FF">Blue</li>
+                <li data-theme="" style="color: #00FFFF">Cyan</li>
+                <li data-theme="" style="color: #FF00FF">Magenta</li>
+                <li data-theme="" style="color: #FFFF00">Yellow</li>
             </ul>
         </div>
         
@@ -79,7 +85,20 @@
         </div>
     </div>
     <script>
+        function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+        function toHex(n) {
+            n = parseInt(n,10);
+            if (isNaN(n)) return "00";
+            n = Math.max(0,Math.min(n,255));
+            return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
+        }
         //App custom javascript
+        $(document).bind('pagecreate', function() {
+            $('input[data-type="range"]').bind( "change", function(event, ui) {
+                var color = rgbToHex($("#red-slider").val(),$("#green-slider").val(),$("#blue-slider").val());
+                $("#color").css("background-color", "#"+color).val(color);
+            });
+        });
     </script>
 </body>
 </html>
