@@ -12,7 +12,7 @@ module.exports = function(app){
 		};
 		
 		if (req.accepts('html')) {
-			res.render('app.html');
+			res.render('index.html');
 		} else if (req.accepts('json')) {
 			res.contentType('json').send({info:info});
 		} else {

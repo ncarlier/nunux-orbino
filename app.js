@@ -100,7 +100,7 @@ app.error(function(err, req, res) {
 
 // Register routes...
 require('./server/routes/index')(app);
-require('./server/routes/color')(app);
+//require('./server/routes/color')(app);
 require('./server/routes/monitor')(app);
 
 module.exports = app;
