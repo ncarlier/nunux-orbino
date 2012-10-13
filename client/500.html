@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Orbino</title>
+</head>
+<body>
+	<h1>Error <%= error.message %></h1>
+	<% if setting['verbose errors'] {%>
+		<pre><%= error.stack %></pre>
+	<% } %>
+</body>
+</html>

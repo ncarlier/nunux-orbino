@@ -1,6 +1,7 @@
 $(function() {
 	var $hueBar = $('#hue-bar');
 	var $svBox = $('#sv-box');
+	var $hueCursor = $('#hue-cursor');
 
 	function drawHueBar() {
 		//Get a 2d context to the hue bar canvas element.
@@ -51,30 +52,64 @@ $(function() {
 
 	function updateColor(color) {
 			$('#color').val(color);
+			$('#color-print').val(color);
 			$('header').css('background', color);
 	}
 	
 	drawHueBar();
 	drawSVBox(1);
 
+	var onHueBarChange = function(y) {
+		//Get a 2d context to the SVBox canvas element.
+		var ctx = $hueBar[0].getContext('2d');
+		//Get the coordinates for our hue bar.
+		var boxCoords = $hueBar.offset();
+		//subtract the left and top of the hue bar from the event.clentX and y then add the window.scrollX and Y
+		// to get the click position in the Hue bar and pass those in to the contexts getImageData function.
+		var myImageData = ctx.getImageData(1, y - boxCoords.top + window.scrollY, 1, 1);
+		//Create a hue color based of the ImageData returned by the getImageData function.
+		var color = tinycolor({r: myImageData.data[0], g:myImageData.data[1], b:myImageData.data[2]});
+		drawSVBox(color.toHsv().h);
+	};
+	
+	var svBoxEnabled = false;
+	var onSVBoxChange = function(e) {
+		if (!svBoxEnabled) return;
+		var ctx = $svBox[0].getContext('2d');
+		var boxCoords = $svBox.offset();
+		var myImageData = ctx.getImageData(e.clientX - boxCoords.left + window.scrollX, e.clientY - boxCoords.top + window.scrollY, 1, 1);
+		var color = tinycolor({r: myImageData.data[0], g:myImageData.data[1], b:myImageData.data[2]});
+		updateColor(color.toHexString());
+	};
+
+	$('body').on('mouseup', function() {
+		svBoxEnabled = false;
+	});
+
 	$hueBar.on('click', function(e) {
-			//Get a 2d context to the SVBox canvas element.
-			var ctx = $hueBar[0].getContext('2d');
-			//Get the coordinates for our hue bar.
-			var boxCoords = $hueBar.offset();
-			//subtract the left and top of the hue bar from the event.clentX and y then add the window.scrollX and Y
-			// to get the click position in the Hue bar and pass those in to the contexts getImageData function.
-			var myImageData = ctx.getImageData(e.clientX - boxCoords.left + window.scrollX, e.clientY - boxCoords.top + window.scrollY, 1, 1);
-			//Create a hue color based of the ImageData returned by the getImageData function.
-			var color = tinycolor({r: myImageData.data[0], g:myImageData.data[1], b:myImageData.data[2]});
-			drawSVBox(color.toHsv().h);
+		var offset = $hueCursor.offset();
+		offset.top = e.clientY + window.scrollY - 12;
+		$hueCursor.offset(offset);
+		onHueBarChange(offset.top);
 	});
 	
-	$svBox.on('click', function(e) {
-			var ctx = $svBox[0].getContext('2d');
-			var boxCoords = $svBox.offset();
-			var myImageData = ctx.getImageData(e.clientX - boxCoords.left + window.scrollX, e.clientY - boxCoords.top + window.scrollY, 1, 1);
-			var color = tinycolor({r: myImageData.data[0], g:myImageData.data[1], b:myImageData.data[2]});
-			updateColor(color.toHexString());
+	$svBox.on('mousedown', function() {
+		svBoxEnabled = true;
+	});
+	$svBox.on('mousemove mouseup', onSVBoxChange);
+
+	var hueBarOffset = $hueBar.offset();
+	$hueCursor.hammer({
+		prevent_default: true,
+		drag_horizontal: false,
+		drag_min_distance: 1
+	}).on('drag', function(e) {
+		var offset = $hueCursor.offset();
+		var y = e.originalEvent.y + window.scrollY;
+		if (y >= hueBarOffset.top && y <= hueBarOffset.top + $hueBar.height()) {
+			offset.top = y - 12;
+			$hueCursor.offset(offset);
+			onHueBarChange(offset.top);
+		}
 	});
 });

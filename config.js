@@ -11,13 +11,5 @@ module.exports = {
 		hostname: 'test.mosquitto.org',
 		port: 1883,
         clientID: 'orbino-mobile-app'
-	},
-	
-	/** Syslog options */
-	syslog: {
-		tag: 'orbino'
-	},
-	
-	/** Secret use to crypt sessions */
-	secret: process.env.APP_SECRET || 'orbinoS3cr3T!'
+	}
 };
