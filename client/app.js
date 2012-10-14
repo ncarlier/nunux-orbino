@@ -52,7 +52,7 @@ $(function() {
 
 	function updateColor(color) {
 			$('#color').val(color);
-			$('#color-print').val(color);
+			$('#color-form :text').val(color);
 			$('header').css('background', color);
 	}
 	
@@ -112,4 +112,22 @@ $(function() {
 			onHueBarChange(offset.top);
 		}
 	});
+
+	$.ajaxSetup({dataType: 'json'});
+	$("#color-form").submit(function(event) {
+		/* stop form from submitting normally */
+		event.preventDefault(); 
+		/* get some values from elements on the page: */
+		var $form = $(this),
+				color = $form.find('input[name="color"]').val(),
+				url = $form.attr('action');
+
+		/* Send the data using post and put the results in a div */
+		$.post(url, {color: color}, function(data) {
+			if (data.error) {
+				return toastr.error(data.error);
+			}
+			toastr.success(data.status);
+		});
+  });
 });

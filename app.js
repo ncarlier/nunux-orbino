@@ -33,7 +33,13 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
 	console.log('ERR: ' + err);
 	res.status(err.status || 500);
-	res.render('500.html', {error: err});
+	if (req.accepts('html')) {
+		res.render('500.html', {error: err});
+	} else if (req.accepts('json')) {
+		res.send({error: err});
+	} else {
+		res.type('txt').send(err);
+	}
 });
 
 // Register routes...

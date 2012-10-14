@@ -8,7 +8,7 @@ module.exports = {
 	
 	/** MQTT options */
 	mqtt: {
-		hostname: 'test.mosquitto.org',
+		hostname: 'localhost',
 		port: 1883,
         clientID: 'orbino-mobile-app'
 	}

@@ -17,9 +17,8 @@ See following installation procedure : [https://github.com/joyent/node/wiki/Inst
 
 ### Install Web Site
 
-        cd ~/local/var/lib
+        cd ~/local/opt
         git clone git@bitbucket.org:ncarlier/orbino.git
-        git submodule init
         cd orbino
         make
 

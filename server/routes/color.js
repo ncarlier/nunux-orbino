@@ -1,6 +1,7 @@
 var mqtt = require('../lib/mqtt');
 var config = require('../../config');
 
+// Maybe switch with https://github.com/adamvr/MQTT.js
 var client = new mqtt.MQTTClient(config.mqtt.port, config.mqtt.hostname, config.mqtt.clientID);
 
 module.exports = function(app){
@@ -18,15 +19,20 @@ module.exports = function(app){
 		if (!color.match(/^([A-Fa-f0-9]{6})$/)) {
 			return next(new Error('Bad request'));
 		}
-		console.log('Send color ' + color + ' to orb ' + config.mqtt.clientID);
 		client.publish('arduino/orb', color);
 
-		if (req.accepts('html')) {
-			res.render('index.html', {locals:{color:color}});
-		} else if (req.accepts('json')) {
-			res.send({status:'ok', color: color});
-		} else {
-			res.type('txt').send('ok\ncolor: ' + color);
-		}
+		var msg = 'Orb ' + config.mqtt.clientID + ' notified.';
+
+		res.format({
+			html: function(){
+				res.render('index.html', {locals:{color:color}});
+			},
+			text: function(){
+				res.type('txt').send(msg + '\ncolor: ' + color);
+			},
+			json: function(){
+				res.json({status: msg, color: color});
+			}
+		})
 	});
 };

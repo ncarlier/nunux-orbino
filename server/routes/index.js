@@ -10,17 +10,21 @@ module.exports = function(app){
 			description: globalAppInfo.description,
 			version: globalAppInfo.version
 		};
-		
-		if (req.accepts('html')) {
-			res.render('index.html');
-		} else if (req.accepts('json')) {
-			res.contentType('json').send({info:info});
-		} else {
-			res.contentType('text').send(
-				'name: ' + info.name + '\n' +
-				'description: ' + info.description + '\n' +
-				'version: ' + info.version + '\n'
-			);
-		}
+
+		res.format({
+			html: function(){
+				res.render('index.html');
+			},
+			text: function(){
+				res.type('txt').send(
+					'name: ' + info.name + '\n' +
+					'description: ' + info.description + '\n' +
+					'version: ' + info.version + '\n'
+				);
+			},
+			json: function(){
+				res.json(info);
+			}
+		})
 	});
 };
