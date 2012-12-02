@@ -3,7 +3,7 @@ $(function() {
 	var $svBox = $('#sv-box');
 	var $hueCursor = $('#hue-cursor');
 
-	function drawHueBar() {
+	var drawHueBar = function() {
 		//Get a 2d context to the hue bar canvas element.
 		var ctx = $hueBar[0].getContext('2d');
 		//get the multiplyer for the hue range based on the height of the hue bar.
@@ -20,9 +20,10 @@ $(function() {
 			//with the offset hi pixels from the bottom with a height of 1px.
 			ctx.fillRect(0, ctx.canvas.height - hi, ctx.canvas.width, 1);
 		}
-	}
+	}();
 
-	function drawSVBox(hue) {
+	var drawSVBox = function drawSVBox(hue) {
+		hue = hue || 1;
 		//Get a 2d context to the hue bar canvas element.
 		var ctx = $svBox[0].getContext('2d');
 		//Get the rgb multiplyer for the number of steps over the height of the SVBox
@@ -48,17 +49,13 @@ $(function() {
 			//Fill the row at 1px high.
 			ctx.fillRect(0, ctx.canvas.height - vi, ctx.canvas.height, 1);
 		}	
-	}
+	};
+	drawSVBox();
 
-	function updateColor(color) {
-			$('#color').val(color);
-			$('#color-form :text').val(color);
-			$('header').css('background', color);
+	var updateColor = function updateColor(color) {
+			$('#submit').text(color).css('background', color);
 	}
 	
-	drawHueBar();
-	drawSVBox(1);
-
 	var onHueBarChange = function(y) {
 		//Get a 2d context to the SVBox canvas element.
 		var ctx = $hueBar[0].getContext('2d');
@@ -99,35 +96,28 @@ $(function() {
 	$svBox.on('mousemove mouseup', onSVBoxChange);
 
 	var hueBarOffset = $hueBar.offset();
-	$hueCursor.hammer({
-		prevent_default: true,
-		drag_horizontal: false,
-		drag_min_distance: 1
-	}).on('drag', function(e) {
-		var offset = $hueCursor.offset();
-		var y = e.originalEvent.y + window.scrollY;
-		if (y >= hueBarOffset.top && y <= hueBarOffset.top + $hueBar.height()) {
-			offset.top = y - 12;
-			$hueCursor.offset(offset);
-			onHueBarChange(offset.top);
-		}
+	$hueCursor.drag("start", function(ev, dd) {
+		dd.limit = {top: -12, bottom: $hueBar.height() - 12};
+	}).drag(function(ev, dd) {
+		var y = Math.min(dd.limit.bottom,
+				Math.max(dd.limit.top, dd.offsetY - hueBarOffset.top));
+		$(this).css({top: y});
+		onHueBarChange(y + hueBarOffset.top + 12);
 	});
 
 	$.ajaxSetup({dataType: 'json'});
-	$("#color-form").submit(function(event) {
+	$("#submit").click(function(event) {
 		/* stop form from submitting normally */
 		event.preventDefault(); 
 		/* get some values from elements on the page: */
-		var $form = $(this),
-				color = $form.find('input[name="color"]').val(),
-				url = $form.attr('action');
-
-		/* Send the data using post and put the results in a div */
-		$.post(url, {color: color}, function(data) {
+		var $a = $(this),
+				color = $a.text();
+		$.post("", {color: color}, function(data) {
 			if (data.error) {
 				return toastr.error(data.error);
 			}
 			toastr.success(data.status);
 		});
-  });
+		return false;
+	});
 });

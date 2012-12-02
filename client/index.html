@@ -20,24 +20,14 @@
 			<div id="hue-cursor"></div>
 			<canvas id="sv-box" height="256" width="256"></canvas>
 		</div>
-
-		<form method="POST" action="" id="color-form">
-			<label for="color">Orb <strong class="online">ONLINE</strong></label>
-			<input type="text" name="value" value="#FFFFFF" disabled />
-			<input type="hidden" name="color" id="color" value="#FFFFFF" />
-			<input type="submit" value="Submit" class="primary" />
-		</form>
+		<br/>
+		<a href="#" title="Submit color" id="submit">#FFFFFF</a>
 	</section>
 
-	<!--footer>
-		<h1>nunux.org (c) 2012</h1>
-	</footer-->
-	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="lib/tinycolor-min.js"></script>
-	<script src="lib/hammer.js"></script>
-	<script src="lib/jquery.hammer.js"></script>
 	<script src="lib/toastr.js"></script>
+	<script src="lib/jquery.event.drag-2.2.js"></script>
 	<script src="app.js"></script>
 </body>
 </html>
