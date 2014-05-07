@@ -1,0 +1,14 @@
+{
+  "name": "orbino",
+  "version": "0.0.1",
+  "main": "app.js",
+  "dependencies": {
+    "jquery": "~1.7.2",
+    "tinycolor": "~0.9.17",
+    "toastr": "~2.0.2",
+    "jquery.event.drag-drop": "~2.2.1"
+  },
+  "ignore": [
+    "**/.*"
+  ]
+}

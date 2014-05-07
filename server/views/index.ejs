@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= info.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+  <meta name="description" content="<%= info.description %>" />
+  <meta name="author" content="<%= info.author %>">
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <link rel="stylesheet" href="lib/toastr/toastr.css" />
+  <!--[if lt IE 9]>
+      <script src="lib/html5shiv/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="icons/icon_152.png">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="icons/icon_120.png">
+  <link rel="apple-touch-icon-precomposed" href="icons/icon_57.png">
+  <link rel="shortcut icon" href="icons/favicon.png">
+</head>
+<body>
+<header>
+  <h1>Orbino</h1>
+</header>
+
+<section id="main">
+  <div id="color-chooser">
+    <canvas id="hue-bar" height="256" width="50"></canvas>
+    <div id="hue-cursor"></div>
+    <canvas id="sv-box" height="256" width="256"></canvas>
+  </div>
+  <br/>
+  <a href="#" title="Submit color" id="submit">#FFFFFF</a>
+</section>
+
+<% if (env == 'production') {%>
+<script src="javascripts/orbino.min.js"></script>
+<% } else { %>
+<script src="lib/jquery/jquery.js"></script>
+<script src="lib/jquery.event.drag-drop/jquery.event.drag.js"></script>
+<script src="lib/tinycolor/tinycolor.js"></script>
+<script src="lib/toastr/toastr.js"></script>
+
+<script src="javascripts/app.js"></script>
+<% } %>
+</body>
+</html>

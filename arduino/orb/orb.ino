@@ -1,10 +1,22 @@
-#define DEBUG 1
-
 /**
- * ORB PROJECT
- * ========================================
- * Author: Nicolas Carlier
- */
+  NUNUX Orbino
+
+  Copyright (c) 2014 Nicolas CARLIER (https://github.com/ncarlier)
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#define DEBUG 1
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -38,9 +50,9 @@ IPAddress ip(192,168,0, 6);
 IPAddress gateway(192,168,0, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-//byte server[] = { 192, 168, 0, 5 };
+// Broker conf.
 byte server[] = { 192, 168, 0, 5 };
-char domain[] = "test.mosquitto.org";
+//char domain[] = "test.mosquitto.org";
 int port = 1883;
 char topic[] = "arduino/orb";
 
@@ -112,7 +124,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.write(payload,length); 
     Serial.println("\"}");
   #endif
-  
+
   color_t c;
   if (!memcmp(payload,"off",length)) c = COLOR_BLACK;
   else if (!memcmp(payload,"on",length)) c = COLOR_WHITE;
@@ -129,7 +141,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     #endif
     return;
   }
-  
+
   setLedColorGradually(c_old, c, 255, 10);
   c_old = c;
 }
@@ -151,7 +163,7 @@ void setup() {
     #if DEBUG > 0
       debug("Failed to configure Ethernet using DHCP. Try static...");
     #endif
-    // no point in carrying on, so blink red forevermore:
+    // Blink ired twice to signal static Ethernet configuration.
     blinkLed(COLOR_RED, 500, 2);
     Ethernet.begin(mac, ip, gateway, subnet);
   }
@@ -181,8 +193,7 @@ void setup() {
   }
 }
 
-void loop()
-{
+void loop() {
   client.loop();
   delay(1000);
 }

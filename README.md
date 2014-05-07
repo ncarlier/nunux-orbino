@@ -1,39 +1,46 @@
-# Orbino
+# NUNUX Orbino
+
+Nunux Orbino is a cool little node.js app that controls an RGB Orb via an Arduino.
 
 ## Installation guide
 ### Prerequisites
 
-* [git](http://git-scm.com/)
-* [nodejs](http://nodejs.org/) v0.6.6
-* [mosquitto](http://mosquitto.org/)
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) ~v0.10.0
+* [Mosquitto](http://mosquitto.org/)
 
-#### Install Git (on Debian)
+#### Install Git, Node.JS and Mosquitto (on Debian)
 
-        aptitude install git
+    sudo aptitude install git nodejs mosquitto
 
-#### Install Node.JS
+#### Install Grunt
 
-See following installation procedure : [https://github.com/joyent/node/wiki/Installation](https://github.com/joyent/node/wiki/Installation)
+    sudo npm install -g grunt-cli
 
-### Install Web Site
+### Install Orbinoa web app
 
-        cd ~/local/opt
-        git clone git@bitbucket.org:ncarlier/orbino.git
-        cd orbino
-        make
+    mkdir -p /opt/node/orbino && cd $_
+    git clone git@github.com:ncarlier/nunux-orbino.git
+    cd orbino
+    npm install
+    npm start
 
-### Run (without CloudFoundry)
+----------------------------------------------------------------------
 
-        #!/bin/sh
-        # Optional ENV (default: development)
-        export NODE_ENV=production
-        # Optional PORT (default: 8081)
-        export APP_PORT=8081
+NUNUX Orbino
 
-        node app.js 2>&1 >> orbino.log
+Copyright (c) 2014 Nicolas CARLIER (https://github.com/ncarlier)
 
-### Deploy on CloudFoundry
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-        #!/bin/sh
-        vmc env-add orbino NODE_ENV=production
-        make deploy
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+----------------------------------------------------------------------

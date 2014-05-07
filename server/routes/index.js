@@ -1,30 +1,13 @@
-var globalAppInfo = require('../../package.json');
+var controller = require('../controllers'),
+    middleware = require('../middlewares');
 
-module.exports = function(app){
-	/**
-	 * Index page.
-	 */
-	app.get('/', function(req, res) {
-		var info = {
-			name: globalAppInfo.name,
-			description: globalAppInfo.description,
-			version: globalAppInfo.version
-		};
-
-		res.format({
-			html: function(){
-				res.render('index.html');
-			},
-			text: function(){
-				res.type('txt').send(
-					'name: ' + info.name + '\n' +
-					'description: ' + info.description + '\n' +
-					'version: ' + info.version + '\n'
-				);
-			},
-			json: function(){
-				res.json(info);
-			}
-		})
-	});
+/**
+ * Server routes.
+ * @module routes
+ */
+module.exports = function(app) {
+  var contextHandler = middleware.contextHandler(app);
+  // Routes...
+  app.get('/', contextHandler, controller.homepage);
+  app.post('/color', contextHandler, controller.color.set);
 };
