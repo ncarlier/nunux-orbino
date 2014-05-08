@@ -8,7 +8,7 @@ Communication between the app and the Arduino module is done over the network th
 
 See the following breadboard sample:
 
-![Breadboard](/arduino/schematics/orbino_bb.png?raw=true "Breadboard")
+![Breadboard](arduino/schematics/orbino_bb.png?raw=true "Breadboard")
 
 ## Installation guide
 ### Prerequisites
