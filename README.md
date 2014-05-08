@@ -1,6 +1,14 @@
 # NUNUX Orbino
 
-Nunux Orbino is a cool little node.js app that controls an RGB Orb via an Arduino.
+Nunux Orbino is a simple node.js app that controls an RGB LED over the network.
+The RGB LED is drived by an Arduino board with the Ethernet shield.
+Communication between the app and the Arduino module is done over the network thanks to MQTT.
+
+## Schematics
+
+See the following breadboard sample:
+
+![Breadboard](/arduino/schematics/orbino_bb.png?raw=true "Breadboard")
 
 ## Installation guide
 ### Prerequisites
@@ -17,7 +25,7 @@ Nunux Orbino is a cool little node.js app that controls an RGB Orb via an Arduin
 
     sudo npm install -g grunt-cli
 
-### Install Orbinoa web app
+### Install Orbino web app
 
     mkdir -p /opt/node/orbino && cd $_
     git clone git@github.com:ncarlier/nunux-orbino.git
