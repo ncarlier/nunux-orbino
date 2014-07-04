@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker run -rm -link mqtt:mqtt -volumes-from ORBINO_VOLUMES -i -t -p 3002:3000 nunux/orbino
+docker run --rm --name orbino --link mqtt:mqtt -volumes-from ORBINO_VOLUMES -i -t -p 3003:3000 nunux/orbino
 

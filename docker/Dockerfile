@@ -2,13 +2,17 @@
 #
 # VERSION 0.0.1
 #
-# VOLUME: docker run -v ~/src/orbino:/opt/orbino -name ORBINO_VOLUMES busybox true
-# BUILD:  docker build -rm -t nunux/orbino .
-# RUN:    docker run -rm -link mqtt:mqtt -volumes-from ORBINO_VOLUMES -i -t -p 3000:3000 nunux/orbino
+# VOLUME: docker run -v ~/src/orbino:/opt/orbino --name ORBINO_VOLUMES busybox true
+# BUILD:  docker build --rm -t nunux/orbino .
+# RUN:    docker run --rm --link mqtt:mqtt --volumes-from ORBINO_VOLUMES -i -t -p 3000:3000 nunux/orbino
 
 FROM nunux/nodejs
 
 MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
+
+# Virtual host (for reverse proxy container)
+ENV VIRTUAL_HOST orbino.lan
+ENV VIRTUAL_PORT 3003
 
 # Env
 ENV NODE_ENV development
